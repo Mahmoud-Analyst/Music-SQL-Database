@@ -1,0 +1,12 @@
+#/* Query 4 */ Who are the top 5 artists popular among different countries?
+
+SELECT a.name,
+       COUNT (DISTINCT i.BillingCountry)
+FROM Artist a
+JOIN album b ON a.ArtistId = b.ArtistId
+JOIN track t ON b.AlbumId = t.AlbumId
+JOIN InvoiceLine l ON t.TrackId = l.TrackId
+JOIN Invoice i ON i.InvoiceId = l.InvoiceId
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 5;

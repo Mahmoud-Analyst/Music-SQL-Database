@@ -1,0 +1,25 @@
+#/* Query 2 */ What is the country of highest sales for each Sales Agent? 
+SELECT FirstName,
+       LastName,
+       EmployeeId,
+       BillingCountry Top_country,
+       max(total) Top_country_sales
+FROM
+  (SELECT e.FirstName,
+          e.LastName,
+          e.EmployeeId,
+          i.BillingCountry,
+          sum(i.total) total
+   FROM Employee e
+   JOIN Customer c ON e.EmployeeId = c.SupportRepId
+   JOIN Invoice i ON i.CustomerId = c.CustomerId
+   GROUP BY 1,
+            2,
+            3,
+            4
+   ORDER BY 1,
+            5 DESC) AS x
+GROUP BY 1,
+         2,
+         3
+ORDER BY 5;

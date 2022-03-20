@@ -1,0 +1,18 @@
+#/* Query 3 */ What is the number of albums with no sales?
+SELECT Profitability,
+       count(*) Albums_Count
+FROM
+  (SELECT a.AlbumId,
+          a.Title,
+          sum(l.quantity) sales_count,
+          CASE
+              WHEN sum(l.quantity) >0 THEN 'yes'
+              ELSE 'no'
+          END AS Profitability
+   FROM Album a
+   LEFT JOIN track t ON t.AlbumId = a.AlbumId
+   LEFT JOIN InvoiceLine l ON l.TrackId = t.TrackId
+   GROUP BY 1,
+            2) AS x
+GROUP BY 1
+ORDER BY 2 DESC;

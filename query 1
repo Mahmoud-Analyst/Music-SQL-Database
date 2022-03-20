@@ -1,0 +1,12 @@
+#/* Query 1 */   Which Sales agent support has higher sales and number of supported customers?
+SELECT e.FirstName,
+       e.LastName,
+       e.EmployeeId,
+       count(DISTINCT c.CustomerId) customers,
+       sum(i.total) Total_Sales,
+       sum(i.total)/count(DISTINCT c.CustomerId) customer_value
+FROM Employee e
+JOIN Customer c ON e.EmployeeId = c.SupportRepId
+JOIN Invoice i ON i.CustomerId = c.CustomerId
+GROUP BY 1
+ORDER BY 4;
